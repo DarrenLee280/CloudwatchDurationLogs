@@ -29,7 +29,7 @@ def getDuration(line):
     for i in lineSplit:
         if i.find("Duration: ") >= 0:
             break
-    print(i)
+    #print(i)
     return i
 
 def enterDataToCSV(data):
@@ -47,8 +47,8 @@ def mostRecent(LogGroupName):
     logName = "/aws/lambda/" + LogGroupName
     streamNames = client.describe_log_streams(logGroupName=logName, orderBy ='LastEventTime', descending = True)
 
-    for name in streamNames.get("logStreams"):
-        print(name)
+    # for name in streamNames.get("logStreams"):
+    #     print(name)
     #FOR NOW JUST GET THE MOST RECENT LOG STREAM NAME
     streamName = streamNames.get("logStreams")[0].get("logStreamName")
 
@@ -81,7 +81,7 @@ def timeRange(LogGroupName):
         startMin = int(input("Enter Start Minute(0-59): "))
         startSec = int(input("Enter Start Seconds(0-59): "))
         startTime = datetime.datetime(startYear,startMonth,startDay,startHour,startMin,startSec).timestamp()*1000
-        print(startTime)
+        #print(startTime)
 
         endMonth = int(input("Enter End Month: "))
         endDay = int(input("Enter End Day: "))
@@ -90,7 +90,7 @@ def timeRange(LogGroupName):
         endMin = int(input("Enter End Minute(0-59): "))
         endSec = int(input("Enter End Seconds(0-59): "))
         endTime = datetime.datetime(endYear,endMonth,endDay,endHour,endMin,endSec).timestamp()*1000
-        print(endTime)
+        #print(endTime)
         if startTime >= endTime:
             print("Invalid Time Range")
 
@@ -100,10 +100,10 @@ def timeRange(LogGroupName):
     #find all stream names in the given durations and put it in the list
     for log in streamNames.get("logStreams"):
         if log.get("creationTime") >= startTime and log.get("creationTime") <= endTime:
-            print(log.get("creationTime"))
+            #print(log.get("creationTime"))
             namesByCreationTime.append(log.get("logStreamName"))
 
-    print(namesByCreationTime)
+    #print(namesByCreationTime)
     for name in namesByCreationTime:
         #Get Log events in response as a dictionary object
         response = client.get_log_events(logGroupName=logName, logStreamName = name)
